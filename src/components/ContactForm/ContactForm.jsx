@@ -1,12 +1,25 @@
 import { Field, Form, Formik } from "formik"
 import { useId } from "react";
 import css from "./ContactForm.module.css"
+import { useDispatch } from "react-redux";
+import { addContact } from "../../redux/contactsSlice";
 
+const initialValues = {
+    name: "",
+   number: "",
+    
+}
 const ContactForm = () => {
+    const dispatch = useDispatch();
      const nameId = useId();
     const numberId = useId();
+    const handleSubmit = (values, actions) => {
+     dispatch(addContact(values.name, values.number)) 
+        actions.resetForm();
+    }
+
     return (
-        <Formik>
+        <Formik initialValues={initialValues} onSubmit={handleSubmit}>
             <Form className={css.form}>
                 <div className={css.formBox}>
                     <label htmlFor={nameId}>Name</label>
